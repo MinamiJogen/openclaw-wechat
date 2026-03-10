@@ -1,25 +1,38 @@
 {
-  "name": "qclaw-wechat-access",
+  "name": "@minamijogen/openclaw-wechat",
   "version": "0.1.0",
-  "type": "module",
   "description": "Reuse QClaw's private WeChat gateway in OpenClaw with QR pairing. 在 OpenClaw 中复用 QClaw 私有微信通路，并支持扫码配对。",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MinamiJogen/openclaw-wechat.git"
-  },
-  "homepage": "https://github.com/MinamiJogen/openclaw-wechat#readme",
-  "bugs": {
-    "url": "https://github.com/MinamiJogen/openclaw-wechat/issues"
-  },
   "keywords": [
     "openclaw",
     "qclaw",
     "wechat",
     "plugin"
   ],
+  "homepage": "https://github.com/MinamiJogen/openclaw-wechat#readme",
+  "bugs": {
+    "url": "https://github.com/MinamiJogen/openclaw-wechat/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MinamiJogen/openclaw-wechat.git"
+  },
+  "license": "ISC",
+  "author": "MinamiJogen",
+  "type": "module",
+  "main": "index.js",
   "scripts": {
     "build": "npm run typecheck",
     "typecheck": "npx -y -p typescript tsc --noEmit"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "openclaw": ">=2026.1.26"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "publishConfig": {
     "access": "public"
@@ -39,18 +52,9 @@
       "order": 85
     },
     "install": {
-      "npmSpec": "qclaw-wechat-access",
+      "npmSpec": "@minamijogen/openclaw-wechat",
       "localPath": ".",
       "defaultChoice": "npm"
     }
-  },
-  "dependencies": {
-    "ws": "^8.18.0"
-  },
-  "peerDependencies": {
-    "openclaw": ">=2026.1.26"
-  },
-  "engines": {
-    "node": ">=20"
   }
 }

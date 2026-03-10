@@ -29,7 +29,7 @@
 ### 方式一：通过 npm 安装
 
 ```bash
-openclaw plugins install qclaw-wechat-access
+openclaw plugins install @minamijogen/openclaw-wechat
 ```
 
 ### 方式二：从本地目录安装

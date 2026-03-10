@@ -28,7 +28,7 @@ You must use a WeChat account that has already been activated through QClaw's in
 ### Option 1: install from npm
 
 ```bash
-openclaw plugins install qclaw-wechat-access
+openclaw plugins install @minamijogen/openclaw-wechat
 ```
 
 ### Option 2: install from a local checkout
