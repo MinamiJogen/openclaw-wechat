@@ -1,46 +1,48 @@
 # QClaw WeChat Access
 
-Reuse QClaw's private WeChat gateway in OpenClaw with QR pairing. 在 OpenClaw 中复用 QClaw 私有微信通路，并支持扫码配对。
+[English](./README.en.md)
 
-- Repository: `https://github.com/MinamiJogen/openclaw-wechat`
-- Issues: `https://github.com/MinamiJogen/openclaw-wechat/issues`
+在 OpenClaw 中复用 QClaw 私有微信通路，并支持扫码配对。
 
-## What it does
+- 仓库地址：`https://github.com/MinamiJogen/openclaw-wechat`
+- 问题反馈：`https://github.com/MinamiJogen/openclaw-wechat/issues`
 
-This plugin lets a stock OpenClaw instance:
+## 功能说明
 
-- pair a WeChat account through QClaw's customer-service QR flow
-- reuse QClaw's private `wechat-access` gateway
-- sync the QClaw channel token and QClaw model API key into OpenClaw config
+这个插件可以让原版 OpenClaw：
 
-## Important note about invite access
+- 通过 QClaw 的客服二维码流程配对微信
+- 复用 QClaw 私有 `wechat-access` 网关
+- 将 QClaw 的 channel token 和模型 API key 同步到 OpenClaw 配置
 
-This project does **not** provide invite-code registration or account opening.
+## 邀请码与权限说明
 
-You must use a WeChat/QClaw account that already has permission to use the QClaw WeChat gateway. If the account is not opened by QClaw's backend, pairing may appear to succeed, but the gateway can still reject the device as offline.
+这个项目**不提供**邀请码注册或账号开通能力。
 
-In practice:
+你必须使用已经开通 QClaw 微信网关权限的 WeChat/QClaw 账号。如果账号尚未被 QClaw 后端开通，配对流程可能看起来成功，但网关仍然会把设备判定为离线。
 
-- this plugin only reuses QClaw's existing backend
-- it does not create invite codes
-- it does not bypass backend account authorization
-- if your account is still under invite control, you need a WeChat account that already has that permission
+这意味着：
 
-## Requirements
+- 本插件只复用 QClaw 现有后端
+- 不生成邀请码
+- 不绕过后端账号鉴权
+- 如果账号仍处于邀请制管理下，需要使用已经有权限的微信号
+
+## 环境要求
 
 - OpenClaw `>= 2026.1.26`
-- a working QClaw-backed WeChat login
-- a WeChat account that already has QClaw gateway permission
+- 可正常使用的 QClaw 微信登录
+- 已开通 QClaw 微信网关权限的微信账号
 
-## Install
+## 安装
 
-### Option 1: install from a local checkout
+### 方式一：从本地目录安装
 
 ```bash
 openclaw plugins install /path/to/qclaw-wechat-plugin --link
 ```
 
-### Option 2: clone from GitHub first
+### 方式二：先从 GitHub 克隆
 
 ```bash
 git clone https://github.com/MinamiJogen/openclaw-wechat.git
@@ -48,67 +50,67 @@ cd openclaw-wechat
 openclaw plugins install "$(pwd)" --link
 ```
 
-Restart OpenClaw after install.
+安装完成后重启 OpenClaw。
 
-## Commands
+## 命令
 
-### Pair
+### 配对
 
 ```bash
 openclaw qclaw-wechat pair
 ```
 
-Flow:
+流程如下：
 
-- if there is no valid QClaw login session yet, it first completes one WeChat login
-- then it opens the customer-service binding QR page
-- after the phone jumps into the QClaw customer-service chat and confirms binding, the plugin polls until the device is bound
+- 如果当前没有可用的 QClaw 登录态，会先完成一次微信登录
+- 然后打开客服绑定二维码页面
+- 手机跳转到 QClaw 客服会话并确认绑定后，插件会轮询直到设备绑定完成
 
-After success it writes:
+成功后会写入：
 
 - `channels.wechat-access.token`
 - `channels.wechat-access.wsUrl`
 - `models.providers.qclaw.baseUrl`
 - `models.providers.qclaw.api`
 - `models.providers.qclaw.models`
-- `models.providers.qclaw.apiKey` when available
+- `models.providers.qclaw.apiKey`（如果后端返回）
 
-If you paired with an older build of this plugin and the browser page logged in but still showed "device not bound", run `unpair` once and then `pair` again so the plugin can rebuild its guid from the host machine ID and switch over to the binding flow.
+如果你之前用的是旧版本插件，出现“浏览器已登录但页面仍显示未绑定设备”的情况，请先执行一次 `unpair`，再重新执行 `pair`，让插件用当前机器 ID 重建 guid 并切换到正确的绑定流程。
 
-### Unpair
+### 解除配对
 
 ```bash
 openclaw qclaw-wechat unpair
 ```
 
-This clears the stored login state and removes the live channel token from config.
+这会清除本地保存的登录状态，并从配置里移除当前 channel token。
 
-### Sync
+### 同步
 
 ```bash
 openclaw qclaw-wechat sync
 ```
 
-This refreshes `openclaw_channel_token` and the QClaw API key from Tencent's backend and syncs them back into config.
+这会从腾讯后端刷新 `openclaw_channel_token` 和 QClaw API key，并同步回配置文件。
 
-## Headless server usage
+## 无头服务器使用
 
-You can keep the browser closed and print the local QR URL instead:
+如果不想自动打开浏览器，可以只打印本地二维码地址：
 
 ```bash
 openclaw qclaw-wechat pair --no-open
 ```
 
-For a headless server behind SSH, bind locally on the server and forward the port:
+如果是通过 SSH 连接到无头服务器，可以在服务端本地监听，再做端口转发：
 
 ```bash
 ssh -L 64716:127.0.0.1:64716 user@server
 openclaw qclaw-wechat pair --no-open --bind 127.0.0.1 --port 64716
 ```
 
-Then open `http://127.0.0.1:64716/` in your local browser.
+然后在本地浏览器打开 `http://127.0.0.1:64716/`。
 
-For a remote host with reverse proxy or public ingress:
+如果服务器有反向代理或公网入口，可以这样：
 
 ```bash
 openclaw qclaw-wechat pair \
@@ -118,24 +120,24 @@ openclaw qclaw-wechat pair \
   --public-url https://your-host.example.com/qclaw-wechat
 ```
 
-## Troubleshooting
+## 常见问题
 
-### Pairing succeeds, but WeChat still says the device is offline
+### 配对成功了，但微信里仍然提示设备离线
 
-This usually means the account is not fully opened for the QClaw WeChat gateway on the backend side. Device binding and account authorization are not the same thing.
+这通常说明账号虽然完成了设备绑定，但并没有真正开通 QClaw 微信网关权限。设备绑定和账号授权不是一回事。
 
-Check these first:
+优先检查：
 
-- the account can log in to QClaw normally
-- the account has already been granted QClaw WeChat gateway access
-- you are not relying on frontend-only invite-code bypass
+- 账号是否能正常登录 QClaw
+- 账号是否已经被授予 QClaw 微信网关权限
+- 是否只是依赖了前端邀请码绕过，而没有真实后端授权
 
-### The QR page does not open automatically
+### 二维码页面没有自动打开
 
-Run:
+执行：
 
 ```bash
 openclaw qclaw-wechat pair --no-open
 ```
 
-Then open the printed URL manually.
+然后手动打开终端打印出来的地址即可。
