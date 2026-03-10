@@ -1,0 +1,51 @@
+{
+  "name": "qclaw-wechat-access",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Reuse QClaw's private WeChat gateway in OpenClaw with QR pairing. 在 OpenClaw 中复用 QClaw 私有微信通路，并支持扫码配对。",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MinamiJogen/openclaw-wechat.git"
+  },
+  "homepage": "https://github.com/MinamiJogen/openclaw-wechat#readme",
+  "bugs": {
+    "url": "https://github.com/MinamiJogen/openclaw-wechat/issues"
+  },
+  "keywords": [
+    "openclaw",
+    "qclaw",
+    "wechat",
+    "plugin"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "channel": {
+      "id": "wechat-access",
+      "label": "QClaw 微信通路",
+      "selectionLabel": "QClaw 微信通路",
+      "detailLabel": "QClaw 微信通路",
+      "docsPath": "/channels/wechat-access",
+      "docsLabel": "wechat-access",
+      "blurb": "Reuse QClaw's private WeChat gateway with QR pairing.",
+      "order": 85
+    },
+    "install": {
+      "localPath": "qclaw-wechat-plugin",
+      "defaultChoice": "local"
+    }
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.1.26"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
