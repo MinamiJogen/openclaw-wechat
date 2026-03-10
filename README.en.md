@@ -19,8 +19,6 @@ You must use a WeChat account that has already been activated through QClaw's in
 
 ## Requirements
 
-- OpenClaw `>= 2026.1.26`
-- a working QClaw-backed WeChat login
 - a WeChat account that has already been invited for QClaw WeChat gateway access
 
 ## Install
