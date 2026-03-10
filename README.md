@@ -25,18 +25,34 @@
 
 ## 安装
 
-### 方式一：从本地目录安装
+### 方式一：通过 npm 安装
+
+```bash
+openclaw plugins install qclaw-wechat-access
+```
+
+### 方式二：从本地目录安装
 
 ```bash
 openclaw plugins install /path/to/qclaw-wechat-plugin --link
 ```
 
-### 方式二：先从 GitHub 克隆
+### 方式三：先从 GitHub 克隆
 
 ```bash
 git clone https://github.com/MinamiJogen/openclaw-wechat.git
 cd openclaw-wechat
 openclaw plugins install "$(pwd)" --link
+```
+
+### 方式四：按子包路径安装
+
+```bash
+git clone https://github.com/MinamiJogen/openclaw-wechat.git
+cd openclaw-wechat
+npm install
+npm run build
+openclaw plugins install -l ./packages/channels
 ```
 
 安装完成后重启 OpenClaw。

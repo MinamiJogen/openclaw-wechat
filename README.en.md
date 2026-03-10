@@ -25,18 +25,34 @@ You must use a WeChat account that has already been activated through QClaw's in
 
 ## Install
 
-### Option 1: install from a local checkout
+### Option 1: install from npm
+
+```bash
+openclaw plugins install qclaw-wechat-access
+```
+
+### Option 2: install from a local checkout
 
 ```bash
 openclaw plugins install /path/to/qclaw-wechat-plugin --link
 ```
 
-### Option 2: clone from GitHub first
+### Option 3: clone from GitHub first
 
 ```bash
 git clone https://github.com/MinamiJogen/openclaw-wechat.git
 cd openclaw-wechat
 openclaw plugins install "$(pwd)" --link
+```
+
+### Option 4: install from the package subpath
+
+```bash
+git clone https://github.com/MinamiJogen/openclaw-wechat.git
+cd openclaw-wechat
+npm install
+npm run build
+openclaw plugins install -l ./packages/channels
 ```
 
 Restart OpenClaw after install.

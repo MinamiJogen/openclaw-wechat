@@ -21,6 +21,9 @@
     "build": "npm run typecheck",
     "typecheck": "npx -y -p typescript tsc --noEmit"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "openclaw": {
     "extensions": [
       "./index.ts"
@@ -38,7 +41,7 @@
     "install": {
       "npmSpec": "qclaw-wechat-access",
       "localPath": ".",
-      "defaultChoice": "local"
+      "defaultChoice": "npm"
     }
   },
   "dependencies": {
