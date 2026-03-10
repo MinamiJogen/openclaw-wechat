@@ -2,6 +2,7 @@
 
 [English](./README.en.md)
 ⚠️本仓库随时可能因为微信或 QClaw 后端调整而失效
+
 在 OpenClaw 中复用 QClaw 微信通路，将微信接入 OpenClaw！
 
 ## 功能说明
