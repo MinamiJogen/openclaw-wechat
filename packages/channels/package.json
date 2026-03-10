@@ -1,0 +1,28 @@
+{
+  "name": "qclaw-wechat-access",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Local link wrapper for QClaw WeChat Access.",
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "channel": {
+      "id": "wechat-access",
+      "label": "QClaw 微信通路",
+      "selectionLabel": "QClaw 微信通路",
+      "detailLabel": "QClaw 微信通路",
+      "docsPath": "/channels/wechat-access",
+      "docsLabel": "wechat-access",
+      "blurb": "Reuse QClaw's private WeChat gateway with QR pairing.",
+      "order": 85
+    },
+    "install": {
+      "localPath": "packages/channels",
+      "defaultChoice": "local"
+    }
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.1.26"
+  }
+}

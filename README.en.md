@@ -1,38 +1,27 @@
 # QClaw WeChat Access
 
 [中文](./README.md)
+⚠️ This repository may stop working at any time if WeChat or the QClaw backend changes.
+Reuse the QClaw WeChat channel in OpenClaw and bring WeChat into OpenClaw.
 
-Reuse QClaw's private WeChat gateway in OpenClaw with QR pairing.
-
-- Repository: `https://github.com/MinamiJogen/openclaw-wechat`
-- Issues: `https://github.com/MinamiJogen/openclaw-wechat/issues`
-
-## What it does
+## Features
 
 This plugin lets a stock OpenClaw instance:
 
 - pair a WeChat account through QClaw's customer-service QR flow
-- reuse QClaw's private `wechat-access` gateway
 - sync the QClaw channel token and QClaw model API key into OpenClaw config
 
-## Invite access and account permission
+## Invite Code and Permission Notice
 
 This project does **not** provide invite-code registration or account opening.
 
-You must use a WeChat/QClaw account that already has permission to use the QClaw WeChat gateway. If the account is not opened by QClaw's backend, pairing may appear to succeed, but the gateway can still reject the device as offline.
-
-In practice:
-
-- this plugin only reuses QClaw's existing backend
-- it does not create invite codes
-- it does not bypass backend account authorization
-- if your account is still under invite control, you need a WeChat account that already has that permission
+You must use a WeChat account that has already been activated through QClaw's invite flow. If the account has not been opened on QClaw's backend, pairing may appear to succeed, but the gateway can still mark the device as offline.
 
 ## Requirements
 
 - OpenClaw `>= 2026.1.26`
 - a working QClaw-backed WeChat login
-- a WeChat account that already has QClaw gateway permission
+- a WeChat account that has already been invited for QClaw WeChat gateway access
 
 ## Install
 
@@ -73,9 +62,7 @@ After success it writes:
 - `models.providers.qclaw.baseUrl`
 - `models.providers.qclaw.api`
 - `models.providers.qclaw.models`
-- `models.providers.qclaw.apiKey` when available
-
-If you paired with an older build of this plugin and the browser page logged in but still showed "device not bound", run `unpair` once and then `pair` again so the plugin can rebuild its guid from the host machine ID and switch over to the binding flow.
+- `models.providers.qclaw.apiKey`
 
 ### Unpair
 
@@ -129,8 +116,7 @@ This usually means the account is not fully opened for the QClaw WeChat gateway 
 Check these first:
 
 - the account can log in to QClaw normally
-- the account has already been granted QClaw WeChat gateway access
-- you are not relying on frontend-only invite-code bypass
+- the account has already been invited
 
 ### The QR page does not open automatically
 

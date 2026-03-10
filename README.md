@@ -1,38 +1,27 @@
 # QClaw WeChat Access
 
 [English](./README.en.md)
-
-在 OpenClaw 中复用 QClaw 私有微信通路，并支持扫码配对。
-
-- 仓库地址：`https://github.com/MinamiJogen/openclaw-wechat`
-- 问题反馈：`https://github.com/MinamiJogen/openclaw-wechat/issues`
+⚠️本仓库随时可能因为微信或 QClaw 后端调整而失效
+在 OpenClaw 中复用 QClaw 微信通路，将微信接入 OpenClaw！
 
 ## 功能说明
 
 这个插件可以让原版 OpenClaw：
 
 - 通过 QClaw 的客服二维码流程配对微信
-- 复用 QClaw 私有 `wechat-access` 网关
 - 将 QClaw 的 channel token 和模型 API key 同步到 OpenClaw 配置
 
 ## 邀请码与权限说明
 
 这个项目**不提供**邀请码注册或账号开通能力。
 
-你必须使用已经开通 QClaw 微信网关权限的 WeChat/QClaw 账号。如果账号尚未被 QClaw 后端开通，配对流程可能看起来成功，但网关仍然会把设备判定为离线。
-
-这意味着：
-
-- 本插件只复用 QClaw 现有后端
-- 不生成邀请码
-- 不绕过后端账号鉴权
-- 如果账号仍处于邀请制管理下，需要使用已经有权限的微信号
+因此你必须使用已经填写过邀请码的微信账号。如果账号尚未被 QClaw 后端开通，配对流程可能看起来成功，但网关仍然会把设备判定为离线。
 
 ## 环境要求
 
 - OpenClaw `>= 2026.1.26`
 - 可正常使用的 QClaw 微信登录
-- 已开通 QClaw 微信网关权限的微信账号
+- 已受到邀请 QClaw 微信网关权限的微信账号
 
 ## 安装
 
@@ -73,9 +62,7 @@ openclaw qclaw-wechat pair
 - `models.providers.qclaw.baseUrl`
 - `models.providers.qclaw.api`
 - `models.providers.qclaw.models`
-- `models.providers.qclaw.apiKey`（如果后端返回）
-
-如果你之前用的是旧版本插件，出现“浏览器已登录但页面仍显示未绑定设备”的情况，请先执行一次 `unpair`，再重新执行 `pair`，让插件用当前机器 ID 重建 guid 并切换到正确的绑定流程。
+- `models.providers.qclaw.apiKey`
 
 ### 解除配对
 
@@ -129,8 +116,7 @@ openclaw qclaw-wechat pair \
 优先检查：
 
 - 账号是否能正常登录 QClaw
-- 账号是否已经被授予 QClaw 微信网关权限
-- 是否只是依赖了前端邀请码绕过，而没有真实后端授权
+- 账号是否已经被邀请
 
 ### 二维码页面没有自动打开
 

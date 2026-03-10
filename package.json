@@ -18,7 +18,8 @@
     "plugin"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "build": "npm run typecheck",
+    "typecheck": "npx -y -p typescript tsc --noEmit"
   },
   "openclaw": {
     "extensions": [
@@ -35,7 +36,8 @@
       "order": 85
     },
     "install": {
-      "localPath": "qclaw-wechat-plugin",
+      "npmSpec": "qclaw-wechat-access",
+      "localPath": ".",
       "defaultChoice": "local"
     }
   },

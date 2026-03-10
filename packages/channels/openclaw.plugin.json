@@ -1,0 +1,9 @@
+{
+  "id": "qclaw-wechat-access",
+  "channels": ["wechat-access"],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}
