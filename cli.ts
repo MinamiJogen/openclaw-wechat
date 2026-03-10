@@ -48,7 +48,7 @@ async function loginWithWechat(params: {
     publicUrl: params.options.publicUrl,
   });
   if (params.options.open === false) {
-    params.logger.info(`[qclaw-wechat] 请在浏览器中打开二维码页面: ${url}`);
+    params.logger.info(`[qclaw-wechat] 请在浏览器中访问以下登录页面：${url}`);
   }
   const authenticated = await finishWxLogin({
     state,
@@ -90,12 +90,12 @@ async function waitForWechatBinding(params: {
     publicUrl: params.options.publicUrl,
   });
   if (params.options.open === false) {
-    params.logger.info(`[qclaw-wechat] 请在浏览器中打开绑定二维码页面: ${page.url}`);
+    params.logger.info(`[qclaw-wechat] 请在浏览器中访问以下绑定页面：${page.url}`);
   }
   page.updateStatus({
     phase: "waiting",
-    message: "请使用微信扫码，随后在手机侧确认绑定",
-    detail: "扫码后会直接跳转到客服会话。",
+    message: "请使用微信扫码，并在移动端完成绑定确认",
+    detail: "扫码成功后，您可以关闭当前浏览器页面，并返回终端继续操作。",
   });
   const startedAt = Date.now();
   try {
@@ -106,7 +106,7 @@ async function waitForWechatBinding(params: {
         page.updateStatus({
           phase: "bound",
           message: `已绑定微信：${result.device.nickname}`,
-          detail: "终端配置已完成，这个页面可以关闭。",
+          detail: "绑定已完成。您可以关闭当前浏览器页面，并返回终端继续操作。",
         });
         await writeState(params.api, state);
         await syncStateToConfig(params.api, state);
@@ -123,9 +123,9 @@ async function waitForWechatBinding(params: {
     page.updateStatus({
       phase: "error",
       message: "等待绑定超时",
-      detail: "请重新执行 pair 并在手机侧完成客服会话确认。",
+      detail: "请重新执行 pair 命令，并在移动端完成绑定确认。",
     });
-    throw new Error("等待微信绑定超时，请重新执行 pair");
+    throw new Error("等待微信绑定超时，请重新执行 pair 命令");
   } finally {
     await page.close();
   }
@@ -163,7 +163,7 @@ export function registerQClawWechatCli(params: {
         let state = await ensureGuid(api);
         let didLogin = false;
         if (!hasAuthenticatedSession(state)) {
-          logger.info("[qclaw-wechat] 当前没有有效登录态，先执行一次微信登录");
+          logger.info("[qclaw-wechat] 未检测到有效登录状态，正在发起微信登录");
           state = await loginWithWechat({
             api,
             logger,
@@ -186,7 +186,7 @@ export function registerQClawWechatCli(params: {
             !didLogin &&
             (message.includes("登录已过期") || message.includes("未登录"))
           ) {
-            logger.info("[qclaw-wechat] 登录态已过期，重新登录后继续绑定");
+            logger.info("[qclaw-wechat] 登录状态已过期，正在重新登录并继续绑定流程");
             state = await loginWithWechat({
               api,
               logger,

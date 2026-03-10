@@ -136,14 +136,14 @@ function renderLoginPage(params: { loginState: string }): string {
   <body>
     <div class="wrap">
       <div class="card">
-        <h1>微信扫码配对</h1>
-        <p>这一步直接复用 QClaw 的微信登录页结构。</p>
+        <h1>微信扫码登录</h1>
+        <p>本步骤使用微信官方登录渠道，请放心扫码。</p>
         <div id="wx_login"></div>
         <div id="status">等待扫码…</div>
-        <div class="hint">扫码成功后会自动回传到本地终端。</div>
+        <div class="hint">扫码成功后，您可以关闭当前浏览器页面，并返回终端继续操作。</div>
         <div id="done" class="done">
-          <strong>扫码成功</strong>
-          终端正在完成配对并写入配置。这个页面可以稍后关闭。
+          <strong>登录成功</strong>
+          登录信息正在同步至本地终端。您可以关闭当前浏览器页面，并返回终端继续操作。
         </div>
       </div>
     </div>
@@ -173,7 +173,7 @@ function renderLoginPage(params: { loginState: string }): string {
           return;
         }
         submitted = true;
-        showDone("扫码成功，正在完成配对…");
+        showDone("登录成功，正在同步登录信息…");
         try {
           const response = await fetch("/callback", {
             method: "POST",
@@ -183,7 +183,7 @@ function renderLoginPage(params: { loginState: string }): string {
           if (!response.ok) {
             throw new Error("callback failed");
           }
-          updateStatus("授权码已回传，终端配对完成后可直接关闭此页");
+          updateStatus("登录信息已回传，您可以关闭当前页面并返回终端继续操作");
           setTimeout(() => {
             try {
               window.close();
@@ -193,12 +193,12 @@ function renderLoginPage(params: { loginState: string }): string {
           submitted = false;
           qrNode.style.display = "";
           doneNode.style.display = "none";
-          updateStatus("授权码回传失败，请返回终端查看错误并重试");
+          updateStatus("登录信息回传失败，请返回终端查看错误信息后重试");
         }
       });
       function renderQr() {
         if (!window.WxLogin) {
-          updateStatus("微信登录脚本加载失败");
+          updateStatus("微信登录组件加载失败，请稍后重试");
           return;
         }
         new window.WxLogin({
@@ -211,7 +211,7 @@ function renderLoginPage(params: { loginState: string }): string {
           style: "white",
           href: "data:text/css;base64," + ${serializedStyle},
           onReady: function () {
-            updateStatus("二维码已就绪，请使用微信扫码");
+            updateStatus("二维码已就绪，请使用微信扫码登录");
           },
           onQRcodeReady: function () {},
         });
@@ -309,7 +309,7 @@ export async function captureWxCode(params: {
       openUrl(url);
     } catch (error) {
       params.logger.warn(
-        `[qclaw-wechat] 自动打开浏览器失败，请手动访问 ${url}: ${
+      `[qclaw-wechat] 自动打开浏览器失败，请手动访问以下地址完成登录：${url}。${
           error instanceof Error ? error.message : String(error)
         }`,
       );
@@ -320,7 +320,7 @@ export async function captureWxCode(params: {
       codePromise,
       new Promise<string>((_, reject) => {
         setTimeout(
-          () => reject(new Error("等待扫码超时，请重新执行 pair")),
+          () => reject(new Error("等待扫码超时，请重新执行 pair 命令")),
           timeoutMs,
         );
       }),
@@ -431,12 +431,12 @@ function renderBindingPage(params: { bindUrl: string }): string {
     <div class="wrap">
       <div class="card">
         <h1>微信扫码绑定</h1>
-        <p>扫码后手机会跳转到客服会话，按页面提示确认绑定。</p>
+        <p>请使用微信扫描二维码，并在移动端按照页面提示完成绑定确认。</p>
         <div id="qrcode">${qrSvg}</div>
         <div id="status">等待扫码…</div>
         <div id="detail"></div>
         <div class="hint">
-          如果你已经登录过 QClaw，这一步会更像原版 QClaw 的“绑定微信”流程，而不是微信网页登录确认。
+          扫码成功后，您可以关闭当前浏览器页面，并返回终端继续操作。
         </div>
       </div>
     </div>
@@ -460,7 +460,7 @@ function renderBindingPage(params: { bindUrl: string }): string {
             return;
           }
         } catch (_) {
-          statusNode.textContent = "正在等待绑定状态…";
+          statusNode.textContent = "正在获取绑定状态，请稍候…";
         }
         setTimeout(pollStatus, 1500);
       }
@@ -486,8 +486,8 @@ export async function serveBindingQrPage(params: {
   const listenPort = normalizeListenPort(params.port);
   let status: BindingPageStatus = {
     phase: "waiting",
-    message: "请使用微信扫码，随后在手机侧确认绑定",
-    detail: "扫码后会直接跳转到客服会话。",
+    message: "请使用微信扫码，并在移动端完成绑定确认",
+    detail: "扫码成功后，您可以关闭当前浏览器页面，并返回终端继续操作。",
   };
   const server = createServer(async (req, res) => {
     const requestUrl = new URL(req.url || "/", "http://127.0.0.1");
@@ -534,7 +534,7 @@ export async function serveBindingQrPage(params: {
       openUrl(url);
     } catch (error) {
       params.logger.warn(
-        `[qclaw-wechat] 自动打开浏览器失败，请手动访问 ${url}: ${
+      `[qclaw-wechat] 自动打开浏览器失败，请手动访问以下地址完成绑定：${url}。${
           error instanceof Error ? error.message : String(error)
         }`,
       );
